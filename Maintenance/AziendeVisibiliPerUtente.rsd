@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition">
+  <DataSet Name="">
+    <Query>
+      <DataSourceReference>DBMaintenance</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@UTEKey">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>SELECT     Man_Ana_AZI.AZIKey, Man_Ana_AZI.AZIName
+FROM         Man_Ana_AZI INNER JOIN
+                          (SELECT     CASE WHEN TipoUtenteKey IS NULL THEN man_ana_ute.azikey ELSE man_ana_azi.azikey END AS AziendeVisibili
+FROM         Man_Ana_UTE LEFT OUTER JOIN
+                          (SELECT     Man_Ana_Tipo_Utente_Permessi.TipoUtenteKey
+                            FROM          Man_Ana_Permessi INNER JOIN
+                                                   Man_Ana_Tipo_Utente_Permessi ON Man_Ana_Permessi.PermessiKey = Man_Ana_Tipo_Utente_Permessi.PermessiKey
+                            WHERE      (Man_Ana_Permessi.PermessiName = 'REPORT_VIEW_ALL_COMPANIES')) AS Allowance ON 
+                      Man_Ana_UTE.TipoUteKey = Allowance.TipoUtenteKey CROSS JOIN
+                      Man_Ana_AZI
+WHERE     (Man_Ana_UTE.UTEKey = @UTEKey)
+GROUP BY CASE WHEN TipoUtenteKey IS NULL THEN man_ana_ute.azikey ELSE man_ana_azi.azikey END) AS Selezione ON 
+                      Man_Ana_AZI.AZIKey = Selezione.AziendeVisibili</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="AZIKey">
+        <DataField>AZIKey</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="AZIName">
+        <DataField>AZIName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

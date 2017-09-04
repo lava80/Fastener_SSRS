@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition">
+  <DataSet Name="">
+    <Query>
+      <DataSourceReference>DBMaintenance</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@UTEKey">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>SELECT     Man_Ana_Tipo_Reparto.TipoRepKey, Man_Ana_Tipo_Reparto.TipoRepName, Man_Ana_UTE_REP.UTEKey
+FROM         Man_Ana_UTE_REP INNER JOIN
+                      Man_Ana_Tipo_Reparto ON Man_Ana_UTE_REP.TipoRepKey = Man_Ana_Tipo_Reparto.TipoRepKey
+WHERE     (Man_Ana_UTE_REP.UTEKey = @UTEKey)
+ORDER BY TipoRepName</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="TipoRepKey">
+        <DataField>TipoRepKey</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="TipoRepName">
+        <DataField>TipoRepName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="UTEKey">
+        <DataField>UTEKey</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>
